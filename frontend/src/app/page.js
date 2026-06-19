@@ -5,6 +5,7 @@ import { AuthContext } from "../context/authcontext";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Clock, User, ArrowRight, BookOpen } from "lucide-react";
+import { apiUrl } from "@/lib/api";
 
 export default function BlogListPage() {
   const { token } = useContext(AuthContext);
@@ -12,7 +13,7 @@ export default function BlogListPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://blog-l9cl.onrender.com/posts")
+    fetch(apiUrl("/posts"))
       .then((res) => res.json())
       .then(setPosts)
       .finally(() => setLoading(false));

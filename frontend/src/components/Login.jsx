@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { AuthContext } from "../context/authcontext"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff, Lock, Mail, Loader2 } from "lucide-react"
+import { apiUrl } from "@/lib/api"
 
 export function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" })
@@ -27,7 +28,7 @@ export function LoginForm() {
     setLoading(true)
     setError("")
     try {
-      const res = await fetch("https://blog-l9cl.onrender.com/auth/login", {
+      const res = await fetch(apiUrl("/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

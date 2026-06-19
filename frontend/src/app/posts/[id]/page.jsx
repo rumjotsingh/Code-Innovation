@@ -18,6 +18,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog"
 import { MessageCircle, Edit, Trash2, User, Calendar, ThumbsUp, ThumbsDown, Send, Save, X } from "lucide-react"
+import { apiUrl } from "@/lib/api"
 
 export default function PostDetailPage() {
   const { token } = useContext(AuthContext)
@@ -56,7 +57,7 @@ export default function PostDetailPage() {
 
   // Fetch post
   useEffect(() => {
-    fetch(`https://blog-l9cl.onrender.com/posts/${postId}`, {
+    fetch(apiUrl(`/posts/${postId}`), {
       headers: {
         Authorization: token ? `Bearer ${token}` : undefined,
       },
@@ -73,7 +74,7 @@ export default function PostDetailPage() {
   // Fetch reactions (likes/dislikes)
   const fetchReactions = async () => {
     try {
-      const res = await fetch(`https://blog-l9cl.onrender.com/posts/${postId}/reactions`)
+      const res = await fetch(apiUrl(`/posts/${postId}/reactions`))
       if (!res.ok) return
       const data = await res.json()
       setReactions(data.reactions)
@@ -96,7 +97,7 @@ export default function PostDetailPage() {
     if (reactionType === "like") setLikeLoading(true)
     if (reactionType === "dislike") setDislikeLoading(true)
     try {
-      const res = await fetch(`https://blog-l9cl.onrender.com/posts/${postId}/react?reaction_type=${reactionType}`, {
+      const res = await fetch(apiUrl(`/posts/${postId}/react?reaction_type=${reactionType}`), {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -114,7 +115,7 @@ export default function PostDetailPage() {
   const fetchComments = async () => {
     setCommentsLoading(true)
     try {
-      const res = await fetch(`https://blog-l9cl.onrender.com/posts/${postId}/comments`, {
+      const res = await fetch(apiUrl(`/posts/${postId}/comments`), {
         headers: { Authorization: token ? `Bearer ${token}` : undefined },
       })
       const data = await res.json()
@@ -141,7 +142,7 @@ export default function PostDetailPage() {
       return
     }
     try {
-      const res = await fetch(`https://blog-l9cl.onrender.com/posts/${postId}`, {
+      const res = await fetch(apiUrl(`/posts/${postId}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -162,7 +163,7 @@ export default function PostDetailPage() {
   const handleDelete = async () => {
     setDeleteOpen(false)
     try {
-      const res = await fetch(`https://blog-l9cl.onrender.com/posts/${postId}`, {
+      const res = await fetch(apiUrl(`/posts/${postId}`), {
         method: "DELETE",
         headers: {
           Authorization: token ? `Bearer ${token}` : undefined,
@@ -185,7 +186,7 @@ export default function PostDetailPage() {
     }
     setCommentAdding(true)
     try {
-      const res = await fetch(`https://blog-l9cl.onrender.com/posts/${postId}/comments`, {
+      const res = await fetch(apiUrl(`/posts/${postId}/comments`), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -216,7 +217,7 @@ export default function PostDetailPage() {
       return
     }
     try {
-      const res = await fetch(`https://blog-l9cl.onrender.com/comments/${commentEditId}`, {
+      const res = await fetch(apiUrl(`/comments/${commentEditId}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -238,7 +239,7 @@ export default function PostDetailPage() {
   const handleDeleteComment = async () => {
     setCommentDeleteOpen(false)
     try {
-      const res = await fetch(`https://blog-l9cl.onrender.com/comments/${commentDeleteId}`, {
+      const res = await fetch(apiUrl(`/comments/${commentDeleteId}`), {
         method: "DELETE",
         headers: {
           Authorization: token ? `Bearer ${token}` : undefined,

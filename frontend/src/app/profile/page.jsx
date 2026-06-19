@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { toast } from "react-toastify"
 import { User, Mail, UserCheck, Loader2, AlertCircle, CheckCircle2 } from "lucide-react"
+import { apiUrl } from "@/lib/api"
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null)
@@ -25,7 +26,7 @@ export default function ProfilePage() {
     }
 
     // Fetch Profile
-    fetch(`https://blog-l9cl.onrender.com/users/${auth.user.username}`, {
+    fetch(apiUrl(`/users/${auth.user.username}`), {
       headers: {
         Authorization: `Bearer ${auth.token}`,
       },
@@ -57,7 +58,7 @@ export default function ProfilePage() {
 
     const auth = JSON.parse(localStorage.getItem("auth"))
     try {
-      const res = await fetch(`https://blog-l9cl.onrender.com/users/${profile.username}`, {
+      const res = await fetch(apiUrl(`/users/${profile.username}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

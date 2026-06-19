@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 import { User, Mail, Lock, UserCheck, Eye, EyeOff, AlertCircle, CheckCircle } from "lucide-react"
+import { apiUrl } from "@/lib/api"
 
 export function RegisterForm() {
   const [form, setForm] = useState({
@@ -31,7 +32,7 @@ export function RegisterForm() {
     setError("")
     setSuccess("")
     try {
-      const res = await fetch("https://blog-l9cl.onrender.com/auth/register", {
+      const res = await fetch(apiUrl("/auth/register"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

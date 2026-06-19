@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { PenTool, FileText, Loader2, CheckCircle, AlertCircle } from "lucide-react"
+import { apiUrl } from "@/lib/api"
 
 export default function NewPostPage() {
   const [form, setForm] = useState({ title: "", content: "" })
@@ -37,7 +38,7 @@ export default function NewPostPage() {
     setLoading(true)
     try {
       const auth = JSON.parse(localStorage.getItem("auth"))
-      const res = await fetch("https://blog-l9cl.onrender.com/posts", {
+      const res = await fetch(apiUrl("/posts"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
