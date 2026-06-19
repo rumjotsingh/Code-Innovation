@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timedelta
@@ -21,10 +22,18 @@ from .auth import (
 )
 from .database import (
     users_collection, posts_collection,
-    comments_collection, 
+    comments_collection, init_db,
 )
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await init_db()
+    yield
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title="Blog API",
     description="""
     A Blog API with Bearer token authentication.
