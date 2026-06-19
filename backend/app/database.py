@@ -2,14 +2,20 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from os import getenv
 import logging
 from fastapi import HTTPException
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # MongoDB Atlas Configuration
-MONGO_URI = "mongodb+srv://rumjotsingh12345:lhvlzdHmGEMFkquM@blogs.pib0pqw.mongodb.net/"
-DATABASE_NAME = "Blog"
+MONGO_URI = getenv("MONGO_URI")
+DATABASE_NAME = getenv("DATABASE_NAME", "Blog")
+
+if not MONGO_URI:
+    raise ValueError("MONGO_URI environment variable is not set")
 
 try:
     # Initialize MongoDB client with proper settings for Atlas
